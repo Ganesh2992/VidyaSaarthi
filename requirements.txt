@@ -2,6 +2,6 @@ streamlit
 groq
 python-dotenv
 edge-tts
-sounddevice
-scipy
-pillow 
+streamlit-audiorecorder
+pydub
+pillow

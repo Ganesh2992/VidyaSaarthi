@@ -2,6 +2,7 @@ import edge_tts
 import asyncio
 import threading
 import os
+import uuid
 
 VOICE_MAP = {
     "Hindi":    "hi-IN-SwaraNeural",
@@ -15,8 +16,10 @@ async def _generate(text, voice, path):
 
 def text_to_speech(text, language="Hinglish"):
     voice = VOICE_MAP.get(language, "hi-IN-SwaraNeural")
-    output_path = "temp/output.mp3"
     os.makedirs("temp", exist_ok=True)
+    # Unique filename per call — avoids race conditions when TTS is called
+    # multiple times (e.g. quiz question audio + feedback audio in one session)
+    output_path = f"temp/tts_{uuid.uuid4().hex[:8]}.mp3"
 
     def run():
         asyncio.run(_generate(text, voice, output_path))
