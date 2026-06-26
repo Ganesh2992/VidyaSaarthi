@@ -208,13 +208,6 @@ Based on the current architecture, here are the planned, realistic improvements 
 
 ---
 
-## 🌟 Educational Impact
-
-*   **For Students:** Provides an infinitely patient, 24/7 available tutor that explains concepts visually and conversationally, breaking down complex topics into digestible pieces.
-*   **For Teachers:** Acts as a powerful classroom aid to quickly generate visual comparisons, impromptu quizzes, and structured notes on the fly.
-*   **For Smart Classrooms:** Seamlessly integrates into digital projector setups, allowing voice-controlled visual teaching.
-
----
 
 ## 🤝 Contributing
 
