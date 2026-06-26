@@ -17,29 +17,28 @@
 
 ---
 
-## 📖 Project Overview
+## 📖 Overview & Impact
 
-ShikshaAI is an advanced, voice-enabled AI teaching assistant built to revolutionize digital learning. Designed primarily for school students (Classes 5 to 10), it acts as a personalized, patient, and knowledgeable teacher. 
+ShikshaAI is an advanced, voice-enabled AI teaching assistant that revolutionizes digital learning for school students (Classes 5 to 10). By simply speaking or typing a topic, students receive structured, NCERT-aligned explanations alongside beautiful visual aids and interactive quizzes. 
 
-By simply speaking or typing a topic, students receive structured, NCERT-aligned explanations, beautiful visual aids, and interactive quizzes. ShikshaAI supports multiple languages (English, Hindi, and Hinglish) and provides spoken feedback, making it an excellent tool for self-learning, smart classrooms, and accessible education.
-
----
-
-## ✨ Key Features
-
-| Category | Features |
-| :--- | :--- |
-| **🎙️ Voice Interaction** | • High-accuracy Speech-to-Text (Whisper API)<br>• Natural Text-to-Speech audio feedback (Edge TTS)<br>• Voice-controlled quiz navigation |
-| **🧠 AI Teaching** | • Dynamic prompt building adapted to student's class level<br>• Smart Intent Routing (Explanation, Quiz, Comparison, Definition, etc.)<br>• Structured concept breakdowns (Prerequisites, Key Concepts, Examples, Summaries) |
-| **📊 Visual Learning** | • **Mermaid.js** Flowcharts & Mindmaps<br>• **HTML/CSS** Infographics, Comparison Cards & Timelines<br>• **Wikimedia** automated diagram fetching |
-| **📝 Smart Quizzes** | • Adaptive MCQ and True/False questions<br>• Difficulty progression (Easy, Medium, Hard) based on Bloom's Taxonomy<br>• Detailed explanations for correct/incorrect answers |
-| **🌐 Accessibility** | • Multi-language support: English, Hindi, Hinglish<br>• "Ask by Typing" alternative to voice mode<br>• Fully responsive, beautiful UI built on Streamlit |
+Serving as an infinitely patient, 24/7 tutor, ShikshaAI supports multiple languages (English, Hindi, and Hinglish). It acts as a powerful study aid for students and a dynamic, on-the-fly presentation tool for teachers in smart classrooms.
 
 ---
 
-## 🏗️ System Architecture
+## ✨ Key Features & Visual Learning
 
-The core of ShikshaAI relies on a robust pipeline that routes user queries, fetches relevant content via LLM, and orchestrates visualizations and audio before presenting the final result.
+*   **🎙️ Voice-First Interaction:** High-accuracy Speech-to-Text via Groq Whisper and natural, multi-lingual audio feedback via Edge TTS.
+*   **🧠 Adaptive AI Teaching:** Dynamic prompt routing ensures explanations and quiz difficulty (MCQ/True-False) scale perfectly to the student's class level.
+*   **📊 Multi-Layered Visualizations:** Automatically selects the best visual aid for any topic:
+    *   **Mermaid.js:** Generates flowcharts and mindmaps for processes.
+    *   **Wikimedia API:** Fetches labeled diagrams and anatomical SVGs.
+    *   **HTML/CSS Cards:** Renders beautifully styled infographic steps, timelines, and comparison cards.
+
+---
+
+## 🏗️ Architecture & Pipeline
+
+User requests are seamlessly routed, processed, and rendered in real-time. The pipeline moves from **Intent Routing** → **LLM JSON Generation** → **Visual & Audio Orchestration** → **Streamlit Rendering**.
 
 ```mermaid
 flowchart TD
@@ -230,14 +229,6 @@ Contributions are welcome! If you'd like to improve ShikshaAI:
 
 ## 📜 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the **MIT License**.
 
----
-
-## 🙏 Acknowledgements
-
-*   [Streamlit](https://streamlit.io/) for the amazing frontend framework.
-*   [Groq](https://groq.com/) for lightning-fast LLM inference.
-*   [Mermaid.js](https://mermaid.js.org/) for dynamic diagram generation.
-*   [Edge-TTS](https://github.com/rany2/edge-tts) for high-quality text-to-speech.
-*   [Wikimedia Commons](https://commons.wikimedia.org/) for providing open-access educational imagery.
+**Acknowledgements:** Built with [Streamlit](https://streamlit.io/), [Groq](https://groq.com/), [Mermaid.js](https://mermaid.js.org/), and [Edge-TTS](https://github.com/rany2/edge-tts).
