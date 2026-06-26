@@ -1,0 +1,243 @@
+<div align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit">
+  <img src="https://img.shields.io/badge/Groq-000000?style=for-the-badge&logo=groq&logoColor=white" alt="Groq">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="License">
+</div>
+
+<br />
+<div align="center">
+  <h1 align="center">ShikshaAI 🎓</h1>
+  <p align="center">
+    <strong>Voice-Enabled AI Teaching Assistant</strong>
+    <br />
+    <em>Transforming education through conversational AI, structured learning, and smart visualizations.</em>
+  </p>
+</div>
+
+---
+
+## 📖 Project Overview
+
+ShikshaAI is an advanced, voice-enabled AI teaching assistant built to revolutionize digital learning. Designed primarily for school students (Classes 5 to 10), it acts as a personalized, patient, and knowledgeable teacher. 
+
+By simply speaking or typing a topic, students receive structured, NCERT-aligned explanations, beautiful visual aids, and interactive quizzes. ShikshaAI supports multiple languages (English, Hindi, and Hinglish) and provides spoken feedback, making it an excellent tool for self-learning, smart classrooms, and accessible education.
+
+---
+
+## ✨ Key Features
+
+| Category | Features |
+| :--- | :--- |
+| **🎙️ Voice Interaction** | • High-accuracy Speech-to-Text (Whisper API)<br>• Natural Text-to-Speech audio feedback (Edge TTS)<br>• Voice-controlled quiz navigation |
+| **🧠 AI Teaching** | • Dynamic prompt building adapted to student's class level<br>• Smart Intent Routing (Explanation, Quiz, Comparison, Definition, etc.)<br>• Structured concept breakdowns (Prerequisites, Key Concepts, Examples, Summaries) |
+| **📊 Visual Learning** | • **Mermaid.js** Flowcharts & Mindmaps<br>• **HTML/CSS** Infographics, Comparison Cards & Timelines<br>• **Wikimedia** automated diagram fetching |
+| **📝 Smart Quizzes** | • Adaptive MCQ and True/False questions<br>• Difficulty progression (Easy, Medium, Hard) based on Bloom's Taxonomy<br>• Detailed explanations for correct/incorrect answers |
+| **🌐 Accessibility** | • Multi-language support: English, Hindi, Hinglish<br>• "Ask by Typing" alternative to voice mode<br>• Fully responsive, beautiful UI built on Streamlit |
+
+---
+
+## 🏗️ System Architecture
+
+The core of ShikshaAI relies on a robust pipeline that routes user queries, fetches relevant content via LLM, and orchestrates visualizations and audio before presenting the final result.
+
+```mermaid
+flowchart TD
+    User([👤 User Input]) -->|Voice/Text| Router{Intent Router}
+    
+    subgraph Speech Processing
+        Voice[Microphone Audio] --> STT[Whisper STT Model]
+        STT --> User
+    end
+    
+    Router -->|Explanation/Compare| PromptGen[Prompt Builder]
+    Router -->|Quiz| QuizGen[Quiz Prompt Builder]
+    
+    PromptGen --> Groq[Groq API (Llama 3.3/3.1)]
+    QuizGen --> Groq
+    
+    Groq --> Validator[JSON Validator & Repair]
+    
+    Validator --> VisMgr{Visual Manager}
+    VisMgr -->|Diagrams/Flows| Mermaid[Mermaid.js Generator]
+    VisMgr -->|Images| Wiki[Wikimedia Fetcher]
+    VisMgr -->|Structures| HTML[Infographic/Cards Generator]
+    
+    Validator --> TTS[Edge TTS Engine]
+    
+    Mermaid --> UI[Streamlit UI]
+    Wiki --> UI
+    HTML --> UI
+    TTS --> UI
+    
+    UI --> Output([🎓 Final Response])
+```
+
+---
+
+## 📂 Project Structure
+
+```text
+nscif/
+├── app.py                      # Main entry point, configures Streamlit routing
+├── llm.py                      # LLM engine: Intent classification, Groq API, JSON validation
+├── prompt_builder.py           # Dynamically builds complex, multi-language system prompts
+├── requirements.txt            # Python dependencies
+├── .env                        # Environment variables (API Keys)
+├── pages/                      # Streamlit UI Views
+│   ├── pg_home.py              # Home screen with voice/text triggers
+│   ├── pg_notes.py             # Renders structured notes and visuals
+│   ├── pg_quiz.py              # Interactive quiz interface
+│   ├── pg_type.py              # Text input mode
+│   └── shared.py               # Shared session state, CSS loader, processing pipeline
+├── speech/                     # Audio Processing
+│   ├── stt.py                  # Whisper-based Speech-to-Text
+│   └── tts.py                  # Edge-TTS based Text-to-Speech
+└── visuals/                    # Visualization Engine
+    ├── visual_manager.py       # Orchestrates visual asset generation
+    ├── infographic_generator.py# Generates HTML/CSS processes, tables, and cards
+    ├── mermaid_generator.py    # Renders Mermaid.js charts
+    ├── wikimedia_fetcher.py    # Hybrid Wikimedia Commons image search
+    └── style.css               # Global application styling
+```
+
+---
+
+## 🛠️ Technology Stack
+
+| Component | Technology |
+| :--- | :--- |
+| **Language** | Python 3.10+ |
+| **Frontend UI** | Streamlit, HTML/CSS |
+| **Core LLM** | Groq API (Llama 3.3-70b-versatile, Llama 3.1-8b-instant) |
+| **Speech-to-Text** | Groq Whisper (whisper-large-v3-turbo) |
+| **Text-to-Speech** | Edge-TTS (`en-IN-NeerjaNeural`, `hi-IN-SwaraNeural`) |
+| **Visualizations** | Mermaid.js, Wikimedia API |
+| **Audio Processing** | Pydub, Streamlit-Audiorecorder |
+
+---
+
+## 🚀 Working Pipeline
+
+1. **User Input:** The user asks a question via microphone or text input. If audio is provided, it is transcribed using the Groq Whisper model.
+2. **Intent Classification:** Python heuristic matching (with a fallback lightweight LLM) determines if the user wants an explanation, quiz, comparison, homework help, etc.
+3. **Prompt Generation:** The `prompt_builder` constructs a system prompt enforcing the teacher persona, NCERT rules, output JSON schema, visual requirements, and language constraints.
+4. **LLM Execution:** The query is sent to the Groq API. A retry wrapper with model fallback ensures reliability.
+5. **JSON Validation:** The LLM's response is aggressively parsed, repaired (if needed), and validated against strict schemas (`_EXPLANATION_REQUIRED` or `_QUIZ_REQUIRED`).
+6. **Visual & Audio Generation:** 
+    * The `visual_manager` parses the requested `visual_type` and routes it to the corresponding generator (Mermaid, HTML Infographics, or Wikimedia).
+    * `edge-tts` asynchronously generates the spoken audio script.
+7. **Rendering:** Streamlit routes to the appropriate page (`pg_notes.py` or `pg_quiz.py`) and renders the rich, interactive UI.
+
+---
+
+## 🖼️ Visual Learning System
+
+ShikshaAI utilizes a multi-layered approach to provide the best possible visual aid for any given topic:
+
+*   **Wikimedia Images:** Fetches highly relevant labeled diagrams and SVGs for anatomical or geographical topics (e.g., Human Heart, Solar System).
+*   **Mermaid.js Diagrams:** Dynamically creates flowcharts, mindmaps, and classification trees for processes and hierarchical concepts.
+*   **HTML Infographics:** Renders beautiful, step-by-step numbered infographic cards for sequential processes.
+*   **Comparison Cards:** Creates side-by-side interactive cards to highlight differences between concepts (e.g., Plant Cell vs. Animal Cell).
+*   **Timeline Cards:** Visualizes historical events or sequential discoveries in a vertical timeline format.
+*   **Tables:** Generates structured numerical or categorical comparisons.
+
+---
+
+## ⚙️ Installation & Local Setup
+
+### Prerequisites
+*   Python 3.10 or higher
+*   A free [Groq API Key](https://console.groq.com/)
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/yourusername/shiksha-ai.git
+cd shiksha-ai
+```
+
+### 2. Create and activate a Virtual Environment
+```bash
+# Windows
+python -m venv venv
+venv\Scripts\activate
+
+# macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Setup Environment Variables
+Create a `.env` file in the root directory and add your API key:
+```env
+GROQ_API_KEYS=your_groq_api_key_here
+```
+*(You can provide a comma-separated list of keys for automatic rate-limit rotation).*
+
+### 5. Run the Application
+```bash
+streamlit run app.py
+```
+The app will open automatically in your browser at `http://localhost:8501`.
+
+---
+
+## ⚠️ Current Limitations
+
+While ShikshaAI is highly capable, the current implementation has a few known limitations:
+*   **API Rate Limits:** Heavy reliance on the free Groq API tier can occasionally result in rate-limit errors (though API key rotation and model fallbacks are implemented to mitigate this).
+*   **TTS Dependency:** Edge-TTS requires an active internet connection and relies on Microsoft's Edge text-to-speech service, which may experience latency.
+*   **Browser Audio Support:** The Streamlit audio recorder may have varying compatibility across different web browsers (Chrome/Edge recommended).
+*   **Language Scope:** Currently, the system is strictly optimized for English, Hindi, and Hinglish.
+
+---
+
+## 🔮 Future Roadmap
+
+Based on the current architecture, here are the planned, realistic improvements for ShikshaAI:
+
+*   **Expanded Quiz Modes:** Introduce "Fill in the Blanks" and short-answer questions to diversify the testing formats.
+*   **Study Notes Export:** Allow students to download their AI-generated notes and visualizations as neat PDF or Markdown files for offline studying.
+*   **Session History & Profiles:** Implement user accounts or local storage saving to let students revisit past topics and quiz results seamlessly.
+*   **RAG Integration for Syllabus:** Integrate basic Retrieval-Augmented Generation (RAG) so the AI can strictly reference uploaded chapters or specific NCERT PDFs.
+*   **Enhanced Multi-Lingual TTS:** Incorporate more regional Indian languages and dialects into the Voice Assistant pipeline.
+
+---
+
+## 🌟 Educational Impact
+
+*   **For Students:** Provides an infinitely patient, 24/7 available tutor that explains concepts visually and conversationally, breaking down complex topics into digestible pieces.
+*   **For Teachers:** Acts as a powerful classroom aid to quickly generate visual comparisons, impromptu quizzes, and structured notes on the fly.
+*   **For Smart Classrooms:** Seamlessly integrates into digital projector setups, allowing voice-controlled visual teaching.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! If you'd like to improve ShikshaAI:
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
+
+---
+
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+## 🙏 Acknowledgements
+
+*   [Streamlit](https://streamlit.io/) for the amazing frontend framework.
+*   [Groq](https://groq.com/) for lightning-fast LLM inference.
+*   [Mermaid.js](https://mermaid.js.org/) for dynamic diagram generation.
+*   [Edge-TTS](https://github.com/rany2/edge-tts) for high-quality text-to-speech.
+*   [Wikimedia Commons](https://commons.wikimedia.org/) for providing open-access educational imagery.
