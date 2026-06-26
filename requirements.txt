@@ -6,4 +6,3 @@ streamlit-audiorecorder
 pydub
 pillow
 requests
-pyaudioop
