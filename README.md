@@ -116,6 +116,24 @@ nscif/
 
 ---
 
+## 🧠 Prompt Design Strategy
+
+To ensure high-quality educational content while minimizing token usage, VidyaSaarthi uses a modular, dynamic **Prompt Builder** rather than static prompts.
+* **Persona Injection:** Forces the LLM to act as a warm, encouraging Indian school teacher rather than a robotic AI.
+* **Curriculum Alignment:** Dynamically injects NCERT guidelines and scales the explanation depth based on the student's selected class level (Class 5 vs Class 10).
+* **Strict JSON Schemas:** Enforces a rigid JSON output format, allowing the backend to safely parse out text, TTS scripts, and Mermaid.js syntax in a single API call without breaking the UI.
+* **Bloom's Taxonomy:** Quiz generation prompts strictly follow educational frameworks (Remember, Understand, Apply, Analyze).
+
+---
+
+## 🌍 Localization & Accessibility
+
+A core mission of VidyaSaarthi is making education accessible to non-native English speakers.
+* **Multilingual Input & Output:** Fully supports **English, Hindi, and Hinglish**. The LLM is strictly prompted to return technical terms in English while keeping conversational explanations in the user's native tongue.
+* **Native Speech Synthesis:** Utilizes region-specific Edge-TTS voices (`en-IN-NeerjaNeural` and `hi-IN-SwaraNeural`) to ensure the AI sounds like a natural, local teacher rather than a foreign text-to-speech engine.
+
+---
+
 ## 🚀 Working Pipeline
 
 1. **User Input:** The user asks a question via microphone or text input. If audio is provided, it is transcribed using the Groq Whisper model.
