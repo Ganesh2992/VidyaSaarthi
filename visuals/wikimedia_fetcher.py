@@ -23,7 +23,8 @@ def clean_search_query(q: str) -> str:
     noise_words = [
         "explain me", "explain", "what is", "what are", "define", "show me", 
         "show", "diagram of", "diagram", "how does", "how do", "works", "work", 
-        "about", "concept of", "the concept of", "process of", "the process of"
+        "about", "concept of", "the concept of", "process of", "the process of",
+        "quiz", "test", "questions", "mcq", "on"
     ]
     for word in noise_words:
         q_clean = re.sub(r'\b' + re.escape(word) + r'\b', '', q_clean)

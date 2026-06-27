@@ -179,7 +179,7 @@ def process(query: str, num_q: int = 5, difficulty: str = "Medium", q_type: str 
         if quiz_topic.lower().startswith("quiz on"):
             quiz_topic = quiz_topic[7:].strip().strip("'\"")
         st.session_state.visual = get_smart_visual(
-            data.get("visual", {}), 
+            None, 
             fallback_topic=quiz_topic
         )
 
