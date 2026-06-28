@@ -244,3 +244,5 @@ Contributions are welcome! If you'd like to improve VidyaSaarthi:
 Distributed under the **MIT License**.
 
 **Acknowledgements:** Built with [Streamlit](https://streamlit.io/), [Groq](https://groq.com/), [Mermaid.js](https://mermaid.js.org/), and [Edge-TTS](https://github.com/rany2/edge-tts).
+
+# First Learn Git
